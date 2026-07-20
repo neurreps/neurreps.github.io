@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeurReps 2026 — Symmetry and Geometry in Neural Representations</title>
+<link rel="icon" type="image/png" href="images/logo/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     DESIGN TOKENS — light theme, NeurReps blue + E8-inspired accents
+     ============================================================ */
+  :root{
+    --blue:      #2B00FF;   /* NeurReps blue — signature color */
+    --blue-soft: #EFECFF;   /* light tint, card / hover surfaces */
+    --blue-line: #D6CFFF;   /* borders on blue-tinted surfaces */
+    --ink:       #14151A;   /* near-black text */
+    --grey:      #6B7280;   /* secondary text */
+    --line:      #E5E7EB;   /* hairlines, dividers */
+    --white:     #FFFFFF;
+
+    /* accent ring, pulled from the E8 root-system palette — used
+       sparingly (avatar rings, small tags) so blue stays dominant */
+    --acc-green:   #1FA35C;
+    --acc-red:     #E43B3B;
+    --acc-magenta: #C6279E;
+    --acc-cyan:    #10AEBE;
+    --acc-orange:  #E38A1F;
+
+    --font: 'Lato', sans-serif;
+    --max: 1120px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--white);
+    color:var(--ink);
+    font-family:var(--font);
+    font-weight:400;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:3px;
+  }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; position:relative; z-index:1; }
+  .eyebrow{
+    font-weight:700; font-size:12.5px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--blue);
+  }
+  h1,h2,h3{ font-family:var(--font); font-weight:900; margin:0; color:var(--ink); letter-spacing:-0.01em; }
+  .section{ padding:88px 0; border-top:1px solid var(--line); }
+  .section:first-of-type{ border-top:none; }
+  .section-head{ margin-bottom:44px; max-width:640px; }
+  .section-head h2{ font-size:clamp(28px,3.4vw,38px); margin-top:10px; }
+  .section-head p{ color:var(--grey); margin-top:14px; font-size:15.5px; font-weight:400; }
+
+  /* ---------------- SPLASH ---------------- */
+  #splash{
+    position:fixed; inset:0; z-index:9999; background:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .5s ease;
+  }
+  #splash img{
+    width:min(52vw,360px); position:absolute;
+  }
+  #splash .splash-title{
+    position:relative; font-weight:900; color:var(--blue);
+    font-size:clamp(28px,5.5vw,52px); text-align:center; letter-spacing:-0.01em;
+    background:rgba(255,255,255,0.72); padding:6px 22px; border-radius:6px;
+  }
+  #splash.hide{ opacity:0; pointer-events:none; }
+  @media (prefers-reduced-motion:reduce){ #splash{ transition:none; } }
+
+  /* ---------------- NAV ---------------- */
+  header{
+    position:sticky; top:0; z-index:10;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-weight:900; font-size:16px; letter-spacing:-0.01em;
+    display:flex; align-items:center; gap:9px; color:var(--ink);
+  }
+  .brand img{ width:24px; height:24px; }
+  .navlinks{ display:none; gap:26px; font-size:14px; font-weight:700; }
+  @media(min-width:960px){ .navlinks{ display:flex; } }
+  .navlinks a{ color:var(--grey); transition:color .15s ease; white-space:nowrap; }
+  .navlinks a:hover{ color:var(--blue); }
+  .navtoggle{
+    display:block; background:none; border:1px solid var(--line); color:var(--ink);
+    font-family:var(--font); font-weight:700; font-size:13px; padding:8px 12px; border-radius:3px; cursor:pointer;
+  }
+  @media(min-width:960px){ .navtoggle{ display:none; } }
+
+  /* ---------------- HERO ---------------- */
+  .hero{ padding:72px 0 80px; border-top:none; }
+  .full-title{
+    font-size:clamp(34px,6.4vw,74px);
+    line-height:1.03;
+    color:var(--blue);
+    margin-top:14px;
+    max-width:none;
+  }
+  .hero-lower{
+    display:grid; grid-template-columns:1fr; gap:48px; align-items:center; margin-top:48px;
+  }
+  @media(min-width:920px){ .hero-lower{ grid-template-columns:0.9fr 1.1fr; } }
+  .hero-logo img{ width:100%; max-width:420px; }
+  .hero .lede{ color:var(--grey); font-size:17px; max-width:52ch; font-weight:400; }
+  .pillrow{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+  .pill{
+    font-weight:700; font-size:12.5px; letter-spacing:0.02em;
+    border:1px solid var(--line); border-radius:99px; padding:9px 16px;
+    color:var(--ink); display:flex; align-items:center; gap:7px; background:var(--white);
+  }
+  .pill .dot{ width:6px; height:6px; border-radius:50%; background:var(--blue); flex:none; }
+  .cta-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
+  .btn{
+    font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:0.01em;
+    padding:12px 22px; border-radius:4px; border:1px solid transparent; cursor:pointer;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-solid{ background:var(--blue); color:var(--white); }
+  .btn-solid:hover{ transform:translateY(-1px); background:#2400d9; }
+  .btn-outline{ border-color:var(--line); color:var(--ink); }
+  .btn-outline:hover{ border-color:var(--blue); color:var(--blue); }
+
+  /* ---------------- MISSION ---------------- */
+  .mission-grid{ display:grid; grid-template-columns:1fr; gap:40px; }
+  @media(min-width:880px){ .mission-grid{ grid-template-columns:1.3fr 1fr; gap:64px; } }
+  .mission-body p{ color:var(--ink); font-size:16.5px; margin:0 0 18px; font-weight:400; }
+  .mission-body p:last-child{ margin-bottom:0; }
+  .pull{
+    border-left:3px solid var(--blue); padding-left:22px;
+    font-weight:400; font-style:italic; font-size:22px; line-height:1.4; color:var(--ink);
+  }
+  .pull cite{
+    display:block; margin-top:16px; font-style:normal; font-weight:700;
+    font-size:12.5px; color:var(--grey); letter-spacing:0.03em; text-transform:uppercase;
+  }
+
+  /* ---------------- PEOPLE GRIDS ---------------- */
+  .people-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:22px; }
+  .person{
+    background:var(--white); border:1px solid var(--line); border-radius:8px;
+    padding:20px; transition:border-color .15s ease, background .15s ease;
+  }
+  .person:hover{ border-color:var(--blue); background:var(--blue-soft); }
+  .photo-wrap{ position:relative; width:56px; height:56px; margin-bottom:16px; }
+  .photo{
+    width:56px; height:56px; border-radius:50%; object-fit:cover;
+    border:1.5px solid var(--line); display:none; position:relative; z-index:1;
+  }
+  .avatar{
+    width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:15px;
+    position:absolute; top:0; left:0;
+  }
+  .person h3{ font-size:16.5px; font-weight:700; line-height:1.3; }
+  .person .aff{ color:var(--grey); font-size:13px; margin-top:5px; font-weight:400; }
+
+  .tba-tile{
+    grid-column:1/-1;
+    border:1px dashed var(--line); border-radius:8px;
+    padding:32px; display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:16px; color:var(--grey);
+  }
+  .tba-tile strong{ color:var(--ink); font-weight:700; }
+  .tba-tile .badge{
+    font-weight:700; font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase;
+    border:1px solid var(--blue-line); background:var(--blue-soft); border-radius:99px; padding:5px 12px; color:var(--blue);
+  }
+
+  /* ---------------- CFP TRACKS ---------------- */
+  .track-grid{ display:grid; grid-template-columns:1fr; gap:20px; }
+  @media(min-width:720px){ .track-grid{ grid-template-columns:1fr 1fr; } }
+  .track{
+    background:var(--white); border:1px solid var(--line); border-top:3px solid var(--track-color, var(--blue));
+    border-radius:10px; padding:32px;
+  }
+  .track .pages{ font-weight:900; font-size:34px; color:var(--track-color, var(--blue)); line-height:1; }
+  .track .pages span{ font-size:14px; font-weight:700; color:var(--grey); margin-left:6px; }
+  .track h3{ margin-top:14px; font-size:19px; }
+  .track p{ color:var(--grey); font-size:14.5px; margin-top:10px; font-weight:400; }
+
+  /* ---------------- SPONSORS ---------------- */
+  .sponsor-row{ border:1px dashed var(--line); border-radius:8px; padding:36px; text-align:center; color:var(--grey); }
+  .sponsor-row a{ color:var(--blue); font-weight:700; }
+
+  /* ---------------- PAST EDITIONS ---------------- */
+  .editions-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; }
+  .edition-card{
+    border:1px solid var(--line); border-radius:8px; padding:22px; text-align:center;
+  }
+  .edition-card .year{ font-weight:900; font-size:24px; color:var(--blue); }
+  .edition-card .venue{ color:var(--grey); font-size:13px; margin-top:6px; }
+
+  /* ---------------- FOOTER ---------------- */
+  footer{ border-top:1px solid var(--line); padding:56px 0 40px; }
+  .footer-grid{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:32px; align-items:flex-start; }
+  .foot-note{ color:var(--grey); font-size:13px; font-weight:400; }
+  .foot-links{ display:flex; flex-wrap:wrap; gap:22px; font-size:13px; font-weight:700; }
+  .foot-links a{ color:var(--grey); transition:color .15s ease; }
+  .foot-links a:hover{ color:var(--blue); }
+
+  ::selection{ background:var(--blue); color:var(--white); }
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <img src="images/logo/e8-petrie.png" alt="">
+  <div class="splash-title">NeurReps</div>
+</div>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><img src="images/logo/e8-petrie-small.png" alt="NeurReps logo"> NeurReps</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#speakers">Speakers</a>
+      <a href="#organizers">Organizers</a>
+      <a href="#cfp">Call for Papers</a>
+      <a href="#sponsors">Sponsors</a>
+      <a href="#past-editions">Past Editions</a>
+    </div>
+    <button class="navtoggle" aria-label="Menu">Menu</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="about">
+    <div class="wrap">
+      <div class="eyebrow">NeurIPS 2026 Workshop · Sydney, Australia</div>
+      <h1 class="full-title">Symmetry and Geometry in Neural Representations</h1>
+
+      <div class="hero-lower">
+        <div class="hero-logo">
+          <img src="images/logo/e8-petrie.png" alt="E8 Petrie polytope projection — the NeurReps logo">
+        </div>
+        <div>
+          <p class="lede">
+            A gathering of mathematicians, machine learning researchers, and neuroscientists
+            working to uncover the geometric principles shared by brains and machines.
+          </p>
+          <div class="pillrow">
+            <span class="pill"><span class="dot"></span> Fri Dec 11 – Sat Dec 12, 2026</span>
+            <span class="pill"><span class="dot"></span> Exact day TBA by NeurIPS</span>
+            <span class="pill"><span class="dot"></span> Sydney, Australia</span>
+          </div>
+          <div class="cta-row">
+            <a class="btn btn-solid" href="#cfp">Read the Call for Papers</a>
+            <!-- TODO: this raw invite link expires in 30 days. Set up a permanent link at inviter.co/neurreps and swap it in here + footer. -->
+            <a class="btn btn-outline" href="https://join.slack.com/t/neurreps/shared_invite/zt-44gysky3l-iQnnHBPC_2u~h1r8LPKfLw">Join the Slack</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MISSION ============ -->
+  <section class="section">
+    <div class="wrap mission-grid">
+      <div class="mission-body">
+        <p>The fields of biological and artificial intelligence are converging on a shared principle: the geometry and topology of real-world structure play a central role in building efficient, robust, and interpretable representations.</p>
+        <p>In neuroscience, mounting evidence suggests that neural circuits encode task and environmental structure through low-dimensional manifolds, conserved symmetries, and structured transformations. In deep learning, sparsity, equivariance, and compositionality are guiding the development of more generalizable and interpretable models.</p>
+        <p>NeurReps brings these threads together — fostering dialogue among machine learning researchers, neuroscientists, and mathematicians working to uncover unifying geometric principles of neural computation.</p>
+      </div>
+      <blockquote class="pull">
+        Just as geometry and symmetry once unified the models of twentieth-century physics, we believe they may now illuminate the computational foundations of intelligence.
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============ SPEAKERS ============ -->
+  <section class="section" id="speakers">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Program</div>
+        <h2>Invited Speakers</h2>
+        <p>Five talks spanning the geometry of brain computation, mechanistic interpretability, and foundation models.</p>
+      </div>
+      <div class="people-grid" id="speakers-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ ORGANIZERS ============ -->
+  <section class="section" id="organizers">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Team</div>
+        <h2>Organizers</h2>
+      </div>
+      <div class="people-grid" id="organizers-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ AREA CHAIRS ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Team</div>
+        <h2>Area Chairs</h2>
+      </div>
+      <div class="people-grid">
+        <div class="tba-tile">
+          <span>Area chairs for the 2026 edition are being finalized.</span>
+          <span class="badge">Announcing soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CFP ============ -->
+  <section class="section" id="cfp">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Submit</div>
+        <h2>Call for Papers</h2>
+        <p>Two tracks, one poster session — a subset of submissions will be selected for spotlight talks. Full details and deadlines coming soon.</p>
+      </div>
+      <div class="track-grid">
+        <div class="track" style="--track-color:var(--acc-magenta)">
+          <div class="pages">9<span>pages, excl. refs</span></div>
+          <h3>Proceedings Track</h3>
+          <p>Self-contained, highly-developed research papers. Archivally published in a dedicated PMLR volume.</p>
+        </div>
+        <div class="track" style="--track-color:var(--acc-cyan)">
+          <div class="pages">4<span>pages, excl. refs</span></div>
+          <h3>Extended Abstract Track</h3>
+          <p>Early-stage results, negative findings, opinion pieces, or novel datasets. Non-archival — may be posted to arXiv.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPONSORS ============ -->
+  <section class="section" id="sponsors">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Support</div>
+        <h2>Sponsors</h2>
+      </div>
+      <div class="sponsor-row">Sponsors for the 2026 edition will be announced here. Interested in sponsoring? <a href="mailto:organizers@neurreps.org">Get in touch</a>.</div>
+    </div>
+  </section>
+
+  <!-- ============ PAST EDITIONS ============ -->
+  <section class="section" id="past-editions">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Archive</div>
+        <h2>Past Editions</h2>
+        <p>A running history of NeurReps at NeurIPS — organizers, speakers, and proceedings from each year.</p>
+      </div>
+      <div class="editions-grid" id="editions-grid"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="brand"><img src="images/logo/e8-petrie-small.png" alt="NeurReps logo"> NeurReps</div>
+      <p class="foot-note" style="margin-top:10px;">NeurIPS 2026 Workshop · Sydney, Australia</p>
+    </div>
+    <div class="foot-links">
+      <a href="http://twitter.com/neur_reps">Twitter / X</a>
+      <a href="https://join.slack.com/t/neurreps/shared_invite/zt-44gysky3l-iQnnHBPC_2u~h1r8LPKfLw">Slack</a>
+      <a href="https://github.com/neurreps">GitHub</a>
+      <a href="https://www.youtube.com/@neurreps">YouTube</a>
+      <a href="mailto:organizers@neurreps.org">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ==================================================================
+  // CONTENT DATA — edit these lists to update the site. In the real
+  // repo this becomes /data/*.yaml files that any LLM can edit directly.
+  // ==================================================================
+  const SPEAKERS = [
+    { name: "Kanaka Rajan", affiliation: "Harvard" },
+    { name: "Ekdeep Lubana", affiliation: "Goodfire" },
+    { name: "Melanie Weber", affiliation: "Harvard" },
+    { name: "Mikhail Galkin", affiliation: "Google DeepMind" },
+    { name: "Smita Krishnaswamy", affiliation: "Yale" },
+  ];
+
+  const ORGANIZERS = [
+    { name: "Francisco Acosta", affiliation: "UC Santa Barbara" },
+    { name: "Fatih Dinc", affiliation: "KITP" },
+    { name: "Nina Miolane", affiliation: "UC Santa Barbara" },
+    { name: "David Klindt", affiliation: "Cold Spring Harbor Laboratory" },
+    { name: "Louisa Cornelis", affiliation: "UC Santa Barbara" },
+    { name: "Alison Pouplin", affiliation: "Bayer AG, Berlin" },
+  ];
+
+  // Add past years here as they're archived, e.g.:
+  // { year: 2025, venue: "Vancouver, Canada", proceedingsUrl: "https://..." }
+  const PAST_EDITIONS = [];
+
+  // ------------------------------------------------------------------
+  // HEADSHOTS: drop a photo into images/people/ named after the
+  // person's slug (lowercase name, spaces -> hyphens, e.g. "Nina
+  // Miolane" -> "nina-miolane.jpg") and it will appear automatically —
+  // no HTML/JS edits needed. Any of these extensions works: jpg, jpeg,
+  // png, webp. If no matching file is found, a colored monogram
+  // placeholder is shown instead.
+  // ------------------------------------------------------------------
+  const PHOTO_DIR = "images/people/";
+  const PHOTO_EXTENSIONS = ["jpg", "jpeg", "png", "webp"];
+  const AVATAR_COLORS = [
+    "var(--blue)", "var(--acc-magenta)", "var(--acc-cyan)",
+    "var(--acc-green)", "var(--acc-orange)", "var(--acc-red)",
+  ];
+
+  function slugify(name){
+    return name.toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-");
+  }
+
+  function initials(name){
+    return name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+  }
+
+  function personCard(p, i){
+    const slug = slugify(p.name);
+    const color = AVATAR_COLORS[i % AVATAR_COLORS.length];
+    return `
+      <div class="person">
+        <div class="photo-wrap">
+          <div class="avatar" style="background:color-mix(in srgb, ${color} 12%, white); color:${color}; border:1.5px solid color-mix(in srgb, ${color} 35%, white);">${initials(p.name)}</div>
+          <img class="photo" data-slug="${slug}" data-ext-idx="0" alt="${p.name}">
+        </div>
+        <h3>${p.name}</h3>
+        <div class="aff">${p.affiliation}</div>
+      </div>`;
+  }
+
+  function renderPeople(list, mountId){
+    document.getElementById(mountId).innerHTML = list.map(personCard).join("");
+  }
+
+  function renderPastEditions(){
+    const mount = document.getElementById("editions-grid");
+    if (PAST_EDITIONS.length === 0){
+      mount.innerHTML = `
+        <div class="tba-tile">
+          <span>The archive of past NeurReps editions is being migrated here.</span>
+          <span class="badge">Coming soon</span>
+        </div>`;
+      return;
+    }
+    mount.innerHTML = PAST_EDITIONS.map(e => `
+      <a class="edition-card" href="${e.proceedingsUrl || '#'}">
+        <div class="year">${e.year}</div>
+        <div class="venue">${e.venue}</div>
+      </a>`).join("");
+  }
+
+  function tryNextExtension(img){
+    const idx = parseInt(img.dataset.extIdx, 10);
+    if (idx >= PHOTO_EXTENSIONS.length) return; // exhausted -> keep monogram fallback
+    img.src = PHOTO_DIR + img.dataset.slug + "." + PHOTO_EXTENSIONS[idx];
+    img.dataset.extIdx = idx + 1;
+  }
+
+  function wirePhotoLoading(){
+    document.querySelectorAll(".photo").forEach(img => {
+      img.addEventListener("error", () => tryNextExtension(img));
+      img.addEventListener("load", () => { img.style.display = "block"; });
+      tryNextExtension(img);
+    });
+  }
+
+  renderPeople(SPEAKERS, "speakers-grid");
+  renderPeople(ORGANIZERS, "organizers-grid");
+  renderPastEditions();
+  wirePhotoLoading();
+
+  // ---------------- SPLASH ----------------
+  window.addEventListener("load", () => {
+    const splash = document.getElementById("splash");
+    setTimeout(() => {
+      splash.classList.add("hide");
+      setTimeout(() => splash.remove(), 550);
+    }, 900);
+  });
+</script>
+
+</body>
+</html>
