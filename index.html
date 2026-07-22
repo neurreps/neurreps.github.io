@@ -153,6 +153,11 @@
     display:block; margin-top:16px; font-style:normal; font-weight:700;
     font-size:12.5px; color:var(--grey); letter-spacing:0.03em; text-transform:uppercase;
   }
+  .mission-aside{ display:flex; flex-direction:column; gap:26px; }
+  .polyhedra-row{ display:flex; flex-wrap:wrap; gap:14px; }
+  .polyhedron{ opacity:0.55; flex:none; }
+  .polyhedron line{ stroke:var(--blue); stroke-width:1; }
+  @media(prefers-reduced-motion:reduce){ .polyhedron{ opacity:0.4; } }
 
   /* ---------------- PEOPLE GRIDS ---------------- */
   .people-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px; }
@@ -320,9 +325,12 @@
         <p>In neuroscience, mounting evidence suggests that neural circuits encode task and environmental structure through low-dimensional manifolds, conserved symmetries, and structured transformations. In deep learning, sparsity, equivariance, and compositionality are guiding the development of more generalizable and interpretable models.</p>
         <p>NeurReps brings these threads together — fostering dialogue among machine learning researchers, neuroscientists, and mathematicians working to uncover unifying geometric principles of neural computation.</p>
       </div>
-      <blockquote class="pull">
-        Just as geometry and symmetry once unified the models of twentieth-century physics, we believe they will now illuminate the computational foundations of intelligence.
-      </blockquote>
+      <div class="mission-aside">
+        <div class="polyhedra-row" id="polyhedra-row" aria-hidden="true"></div>
+        <blockquote class="pull">
+          Just as geometry and symmetry once unified the models of twentieth-century physics, we believe they will now illuminate the computational foundations of intelligence.
+        </blockquote>
+      </div>
     </div>
   </section>
 
@@ -627,12 +635,117 @@
     });
   }
 
+  // ---------------- ROTATING PLATONIC SOLIDS ----------------
+  // Vanilla JS/SVG wireframes: project each solid's vertices to 2D every
+  // frame. No canvas, no libraries — just <line> elements we move.
+  const PHI = (1 + Math.sqrt(5)) / 2;
+  const PLATONIC_SOLIDS = [
+    { name: "tetrahedron", verts: [[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]] },
+    { name: "cube", verts: cartesian([-1,1],[-1,1],[-1,1]) },
+    { name: "octahedron", verts: [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]] },
+    { name: "icosahedron", verts: [
+      [0,1,PHI],[0,1,-PHI],[0,-1,PHI],[0,-1,-PHI],
+      [1,PHI,0],[1,-PHI,0],[-1,PHI,0],[-1,-PHI,0],
+      [PHI,0,1],[PHI,0,-1],[-PHI,0,1],[-PHI,0,-1],
+    ]},
+    { name: "dodecahedron", verts: [
+      ...cartesian([-1,1],[-1,1],[-1,1]),
+      ...cartesian([0],[-1/PHI,1/PHI],[-PHI,PHI]),
+      ...cartesian([-1/PHI,1/PHI],[-PHI,PHI],[0]),
+      ...cartesian([-PHI,PHI],[0],[-1/PHI,1/PHI]),
+    ]},
+  ];
+  function cartesian(xs, ys, zs){
+    const out = [];
+    for (const x of xs) for (const y of ys) for (const z of zs) out.push([x,y,z]);
+    return out;
+  }
+
+  function buildEdges(rawVerts){
+    const dist = (a,b) => Math.hypot(a[0]-b[0], a[1]-b[1], a[2]-b[2]);
+    const verts = rawVerts.map(([x,y,z]) => {
+      const len = Math.hypot(x,y,z);
+      return [x/len, y/len, z/len];
+    });
+    let minDist = Infinity;
+    for (let i=0;i<verts.length;i++){
+      for (let j=i+1;j<verts.length;j++){
+        minDist = Math.min(minDist, dist(verts[i], verts[j]));
+      }
+    }
+    const edges = [];
+    for (let i=0;i<verts.length;i++){
+      for (let j=i+1;j<verts.length;j++){
+        if (Math.abs(dist(verts[i], verts[j]) - minDist) < 0.001) edges.push([i,j]);
+      }
+    }
+    return { verts, edges };
+  }
+
+  function initPolyhedra(){
+    const container = document.getElementById("polyhedra-row");
+    if (!container) return;
+    const svgNS = "http://www.w3.org/2000/svg";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const SIZE = 64, R = 24, D = 3.4, CENTER = 32;
+
+    const instances = PLATONIC_SOLIDS.map((solid, idx) => {
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("class", "polyhedron");
+      svg.setAttribute("viewBox", `0 0 ${SIZE} ${SIZE}`);
+      svg.setAttribute("width", SIZE);
+      svg.setAttribute("height", SIZE);
+      container.appendChild(svg);
+
+      const { verts, edges } = buildEdges(solid.verts);
+      const lines = edges.map(() => svg.appendChild(document.createElementNS(svgNS, "line")));
+      return {
+        verts, edges, lines,
+        angleX: 0.3 + idx * 0.5, angleY: idx * 0.7,
+        speedX: 0.0016 + idx * 0.0003, speedY: 0.0032 + idx * 0.0005,
+      };
+    });
+
+    function renderOne(inst){
+      const cosY = Math.cos(inst.angleY), sinY = Math.sin(inst.angleY);
+      const cosX = Math.cos(inst.angleX), sinX = Math.sin(inst.angleX);
+      const projected = inst.verts.map(([x,y,z]) => {
+        const x1 = x*cosY + z*sinY;
+        const z1 = -x*sinY + z*cosY;
+        const y1 = y*cosX - z1*sinX;
+        const z2 = y*sinX + z1*cosX;
+        const scale = D / (D + z2);
+        return [CENTER + x1*R*scale, CENTER + y1*R*scale];
+      });
+      inst.edges.forEach(([i,j], idx) => {
+        inst.lines[idx].setAttribute("x1", projected[i][0]);
+        inst.lines[idx].setAttribute("y1", projected[i][1]);
+        inst.lines[idx].setAttribute("x2", projected[j][0]);
+        inst.lines[idx].setAttribute("y2", projected[j][1]);
+      });
+    }
+
+    if (reduceMotion){
+      instances.forEach(renderOne);
+      return;
+    }
+    (function tick(){
+      instances.forEach(inst => {
+        inst.angleY += inst.speedY;
+        inst.angleX += inst.speedX;
+        renderOne(inst);
+      });
+      requestAnimationFrame(tick);
+    })();
+  }
+
   renderPeople(SPEAKERS, "speakers-grid");
   renderPeople(PANELISTS, "panelists-grid");
   renderPeople(ORGANIZERS, "organizers-grid");
   renderPastEditions();
   renderSchedule();
   wirePhotoLoading();
+  initPolyhedra();
 
   // ---------------- SPLASH ----------------
   window.addEventListener("load", () => {
