@@ -53,15 +53,15 @@
   img{ max-width:100%; display:block; }
   .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; position:relative; z-index:1; }
   .eyebrow{
-    font-weight:700; font-size:12.5px; letter-spacing:0.14em;
+    font-weight:700; font-size:13.5px; letter-spacing:0.14em;
     text-transform:uppercase; color:var(--blue);
   }
   h1,h2,h3{ font-family:var(--font); font-weight:900; margin:0; color:var(--ink); letter-spacing:-0.01em; }
-  .section{ padding:88px 0; border-top:1px solid var(--line); }
+  .section{ padding:72px 0; border-top:1px solid var(--line); }
   .section:first-of-type{ border-top:none; }
   .section-head{ margin-bottom:44px; max-width:640px; }
   .section-head h2{ font-size:clamp(28px,3.4vw,38px); margin-top:10px; }
-  .section-head p{ color:var(--grey); margin-top:14px; font-size:15.5px; font-weight:400; }
+  .section-head p{ color:var(--grey); margin-top:14px; font-size:16.5px; font-weight:400; }
 
   /* ---------------- SPLASH ---------------- */
   #splash{
@@ -120,10 +120,11 @@
   }
   @media(min-width:920px){ .hero-lower{ grid-template-columns:0.9fr 1.1fr; } }
   .hero-logo img{ width:100%; max-width:420px; }
-  .hero .lede{ color:var(--grey); font-size:17px; max-width:52ch; font-weight:400; }
+  .hero .lede{ color:var(--grey); font-size:19.5px; max-width:52ch; font-weight:400; }
   .pillrow{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+  .pill-caption{ color:var(--grey); font-size:13.5px; margin:10px 0 0; font-weight:400; }
   .pill{
-    font-weight:700; font-size:12.5px; letter-spacing:0.02em;
+    font-weight:700; font-size:13.5px; letter-spacing:0.02em;
     border:1px solid var(--line); border-radius:99px; padding:9px 16px;
     color:var(--ink); display:flex; align-items:center; gap:7px; background:var(--white);
   }
@@ -154,26 +155,44 @@
   }
 
   /* ---------------- PEOPLE GRIDS ---------------- */
-  .people-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+  .people-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px; }
   .person{
-    background:var(--white); border:1px solid var(--line); border-radius:8px;
-    padding:12px 16px; transition:border-color .15s ease, background .15s ease;
-    display:flex; align-items:center; gap:14px;
+    background:var(--white); border:1px solid var(--line); border-radius:12px;
+    padding:20px; transition:border-color .15s ease, background .15s ease;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:2px;
   }
   a.person:hover{ border-color:var(--blue); background:var(--blue-soft); cursor:pointer; }
-  .photo-wrap{ position:relative; width:52px; height:52px; flex:none; }
+  .photo-wrap{ position:relative; width:100%; aspect-ratio:1/1; margin-bottom:16px; }
   .photo{
-    width:52px; height:52px; border-radius:8px; object-fit:cover;
+    width:100%; height:100%; border-radius:10px; object-fit:cover;
     border:1.5px solid var(--line); display:none; position:relative; z-index:1;
   }
   .avatar{
-    width:52px; height:52px; border-radius:8px;
+    width:100%; height:100%; border-radius:10px;
     display:flex; align-items:center; justify-content:center;
-    font-weight:700; font-size:14px;
+    font-weight:700; font-size:clamp(24px,8vw,40px);
     position:absolute; top:0; left:0;
   }
-  .person h3{ font-size:15.5px; font-weight:700; line-height:1.3; }
-  .person .aff{ color:var(--grey); font-size:12.5px; margin-top:3px; font-weight:400; }
+  .person h3{ font-size:18px; font-weight:700; line-height:1.3; }
+  .person .aff{ color:var(--grey); font-size:14px; margin-top:4px; font-weight:400; }
+
+  /* ---------------- SCHEDULE ---------------- */
+  .schedule{ border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .schedule-session{
+    background:var(--blue-soft); padding:14px 24px; font-weight:900; font-size:15.5px; color:var(--blue);
+  }
+  .schedule-row{
+    display:flex; gap:24px; padding:18px 24px; border-top:1px solid var(--line); align-items:flex-start;
+  }
+  .schedule-time{ flex:none; width:130px; font-weight:700; font-size:14.5px; color:var(--blue); }
+  .schedule-main h4{ font-size:16.5px; font-weight:700; margin:0; color:var(--ink); }
+  .schedule-row.break .schedule-main h4{ color:var(--grey); }
+  .schedule-main .who{ color:var(--grey); font-size:14px; margin-top:4px; }
+  .schedule-main .who em{ font-style:normal; color:var(--acc-orange); }
+  @media(max-width:600px){
+    .schedule-row{ flex-direction:column; gap:6px; }
+    .schedule-time{ width:auto; }
+  }
 
   .tba-tile{
     grid-column:1/-1;
@@ -183,21 +202,37 @@
   }
   .tba-tile strong{ color:var(--ink); font-weight:700; }
   .tba-tile .badge{
-    font-weight:700; font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase;
+    font-weight:700; font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase;
     border:1px solid var(--blue-line); background:var(--blue-soft); border-radius:99px; padding:5px 12px; color:var(--blue);
   }
 
   /* ---------------- CFP TRACKS ---------------- */
+  .deadline-row{ display:flex; flex-wrap:wrap; gap:14px; margin:28px 0 36px; }
+  .deadline-pill{
+    display:flex; flex-direction:column; gap:4px;
+    border:1px solid var(--blue-line); background:var(--blue-soft); border-radius:8px;
+    padding:12px 20px;
+  }
+  .deadline-pill .label{
+    font-weight:700; font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--blue);
+  }
+  .deadline-pill .value{ font-weight:900; font-size:17px; color:var(--ink); }
   .track-grid{ display:grid; grid-template-columns:1fr; gap:20px; }
   @media(min-width:720px){ .track-grid{ grid-template-columns:1fr 1fr; } }
+  @media(min-width:1000px){ .track-grid{ grid-template-columns:1fr 1fr 1fr; } }
   .track{
     background:var(--white); border:1px solid var(--line); border-top:3px solid var(--track-color, var(--blue));
     border-radius:10px; padding:32px;
   }
   .track .pages{ font-weight:900; font-size:34px; color:var(--track-color, var(--blue)); line-height:1; }
-  .track .pages span{ font-size:14px; font-weight:700; color:var(--grey); margin-left:6px; }
-  .track h3{ margin-top:14px; font-size:19px; }
-  .track p{ color:var(--grey); font-size:14.5px; margin-top:10px; font-weight:400; }
+  .track .pages span{ font-size:15px; font-weight:700; color:var(--grey); margin-left:6px; }
+  .track h3{ margin-top:14px; font-size:20px; }
+  .track p{ color:var(--grey); font-size:15.5px; margin-top:10px; font-weight:400; }
+  .cfp-note{
+    background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:8px;
+    padding:18px 22px; font-size:15.5px; color:var(--ink); margin-top:24px; line-height:1.5;
+  }
+  .cfp-note strong{ color:var(--blue); }
 
   /* ---------------- SPONSORS ---------------- */
   .sponsor-row{ border:1px dashed var(--line); border-radius:8px; padding:36px; text-align:center; color:var(--grey); }
@@ -209,13 +244,13 @@
     border:1px solid var(--line); border-radius:8px; padding:22px; text-align:center;
   }
   .edition-card .year{ font-weight:900; font-size:24px; color:var(--blue); }
-  .edition-card .venue{ color:var(--grey); font-size:13px; margin-top:6px; }
+  .edition-card .venue{ color:var(--grey); font-size:14px; margin-top:6px; }
 
   /* ---------------- FOOTER ---------------- */
   footer{ border-top:1px solid var(--line); padding:56px 0 40px; }
   .footer-grid{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:32px; align-items:flex-start; }
-  .foot-note{ color:var(--grey); font-size:13px; font-weight:400; }
-  .foot-links{ display:flex; flex-wrap:wrap; gap:22px; font-size:13px; font-weight:700; }
+  .foot-note{ color:var(--grey); font-size:14px; font-weight:400; }
+  .foot-links{ display:flex; flex-wrap:wrap; gap:22px; font-size:14px; font-weight:700; }
   .foot-links a{ color:var(--grey); transition:color .15s ease; }
   .foot-links a:hover{ color:var(--blue); }
 
@@ -235,6 +270,8 @@
     <div class="navlinks">
       <a href="#about">About</a>
       <a href="#speakers">Speakers</a>
+      <a href="#panelists">Panelists</a>
+      <a href="#schedule">Schedule</a>
       <a href="#organizers">Organizers</a>
       <a href="#cfp">Call for Papers</a>
       <a href="#sponsors">Sponsors</a>
@@ -262,9 +299,9 @@
           </p>
           <div class="pillrow">
             <span class="pill"><span class="dot"></span> Fri Dec 11 – Sat Dec 12, 2026</span>
-            <span class="pill"><span class="dot"></span> Exact day TBA by NeurIPS</span>
             <span class="pill"><span class="dot"></span> Sydney, Australia</span>
           </div>
+          <p class="pill-caption">Exact day within this range to be confirmed by NeurIPS.</p>
           <div class="cta-row">
             <a class="btn btn-solid" href="#cfp">Read the Call for Papers</a>
             <!-- TODO: this raw invite link expires in 30 days. Set up a permanent link at inviter.co/neurreps and swap it in here + footer. -->
@@ -301,6 +338,30 @@
     </div>
   </section>
 
+  <!-- ============ PANELISTS ============ -->
+  <section class="section" id="panelists">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Program</div>
+        <h2>Panelists</h2>
+        <p>Joining the Session III discussion, "Topology, Geometry, and Neuroscience: Towards a Unified Framework."</p>
+      </div>
+      <div class="people-grid" id="panelists-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ SCHEDULE ============ -->
+  <section class="section" id="schedule">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Program</div>
+        <h2>Schedule</h2>
+        <p>A tentative full-day program, adapted from our workshop proposal. Exact times will be finalized once NeurIPS assigns our session slot.</p>
+      </div>
+      <div class="schedule" id="schedule-list"></div>
+    </div>
+  </section>
+
   <!-- ============ ORGANIZERS ============ -->
   <section class="section" id="organizers">
     <div class="wrap">
@@ -334,20 +395,43 @@
       <div class="section-head">
         <div class="eyebrow">Submit</div>
         <h2>Call for Papers</h2>
-        <p>Two tracks, one poster session — a subset of submissions will be selected for spotlight talks. Full details and deadlines coming soon.</p>
+        <p>Three tracks, one poster session — a subset of submissions will be selected for spotlight talks.</p>
       </div>
+
+      <div class="deadline-row">
+        <div class="deadline-pill">
+          <span class="label">Submission Deadline</span>
+          <span class="value">August 22, 2026 · AoE</span>
+        </div>
+        <div class="deadline-pill">
+          <span class="label">Accept / Reject Notification</span>
+          <span class="value">September 29, 2026</span>
+        </div>
+      </div>
+
       <div class="track-grid">
         <div class="track">
           <div class="pages">9<span>pages, excl. refs</span></div>
           <h3>Proceedings Track</h3>
-          <p>Self-contained, highly-developed research papers. Archivally published in a dedicated PMLR volume.</p>
+          <p>Self-contained, highly-developed research papers. Archivally published in a dedicated PMLR volume. Double-blind review via OpenReview.</p>
         </div>
         <div class="track">
           <div class="pages">4<span>pages, excl. refs</span></div>
           <h3>Extended Abstract Track</h3>
-          <p>Early-stage results, negative findings, opinion pieces, or novel datasets. Non-archival — may be posted to arXiv.</p>
+          <p>Early-stage results, negative findings, opinion pieces, or novel datasets. Non-archival — may be posted to arXiv. Double-blind review via OpenReview.</p>
+        </div>
+        <div class="track">
+          <div class="pages">—<span>no page limit</span></div>
+          <h3>Findings Track</h3>
+          <p>New this year: high-impact collaborative work between experimentalists and theorists, in any standard preprint format. Single-blind, editorially reviewed by the organizing committee.</p>
         </div>
       </div>
+
+      <div class="cta-row" style="margin-top:24px;">
+        <a class="btn btn-outline" href="files/NeurReps_2026_Template.zip" download>Download LaTeX Template (.zip)</a>
+      </div>
+
+      <p class="cfp-note"><strong>All submitting authors need an OpenReview profile</strong> for the Proceedings and Extended Abstract tracks — creating one can take a few days, so please don't wait until the deadline. For the Findings track, only the submitting author needs a profile; co-authors can be added by email.</p>
     </div>
   </section>
 
@@ -406,18 +490,49 @@
     { name: "Smita Krishnaswamy", affiliation: "Yale", website: "https://krishnaswamylab.org/" },
   ];
 
+  const PANELISTS = [
+    { name: "Claudio Battiloro", affiliation: "Harvard University", website: "https://cbattiloro.com/" },
+    { name: "Aditya Nair", affiliation: "Nanyang Technological University", website: "https://www.nairlab.science/" },
+    { name: "Hidenori Tanaka", affiliation: "NTT Research & Harvard University", website: "https://sites.google.com/view/htanaka/home" },
+  ];
+
   const ORGANIZERS = [
+    { name: "Louisa Cornelis", affiliation: "UC Santa Barbara", website: "https://sites.google.com/view/louisacornelis/home" },
     { name: "Francisco Acosta", affiliation: "UC Santa Barbara", website: "https://franciscoeacosta.github.io/" },
+    { name: "Alison Pouplin", affiliation: "Bayer AG, Berlin", website: "https://scholar.google.com/citations?user=bNcqi4oAAAAJ&hl=en" },
+    { name: "David Klindt", affiliation: "Cold Spring Harbor Laboratory", website: "https://www.cshl.edu/research/faculty-staff/david-klindt/" },
     { name: "Fatih Dinc", affiliation: "KITP", website: "https://sites.google.com/view/fatihdinc/home" },
     { name: "Nina Miolane", affiliation: "UC Santa Barbara", website: "https://www.ninamiolane.com/" },
-    { name: "David Klindt", affiliation: "Cold Spring Harbor Laboratory", website: "https://www.cshl.edu/research/faculty-staff/david-klindt/" },
-    { name: "Louisa Cornelis", affiliation: "UC Santa Barbara", website: "https://sites.google.com/view/louisacornelis/home" },
-    { name: "Alison Pouplin", affiliation: "Bayer AG, Berlin", website: "https://scholar.google.com/citations?user=bNcqi4oAAAAJ&hl=en" },
   ];
 
   // Add past years here as they're archived, e.g.:
   // { year: 2025, venue: "Vancouver, Canada", proceedingsUrl: "https://..." }
   const PAST_EDITIONS = [];
+
+  // Tentative schedule, adapted from the workshop proposal. `session` entries
+  // render as section dividers; everything else is a timed row. `break: true`
+  // dims a row (meals/coffee/posters instead of a talk).
+  const SCHEDULE = [
+    { time: "8:45 – 9:00", title: "Introduction & Opening Remarks", who: "Louisa Cornelis (UC Santa Barbara) — Organizer" },
+    { session: "Session I — Symmetry and Geometric Priors in Machine Learning" },
+    { time: "9:00 – 9:30", title: "Model-Agnostic Equivariance for Efficient Learning under Symmetry", who: "Melanie Weber (Harvard University)" },
+    { time: "9:30 – 10:00", title: "Representation Learning in Graph Foundation Models", who: "Mikhail Galkin (Google DeepMind)" },
+    { time: "10:00 – 10:30", title: "Spotlight Talks", who: "3 contributed talks, 10 min each", break: true },
+    { time: "10:30 – 12:00", title: "Poster Session I", who: "Contributed works", break: true },
+    { time: "12:00 – 1:00", title: "Lunch Break", break: true },
+    { session: "Session II — Representation Geometry Across Biological and Artificial Neural Networks" },
+    { time: "1:00 – 1:30", title: "Representation Geometry, Interpretability, and the Neuroscience of Model Behavior", who: "Ekdeep Lubana (Goodfire AI)" },
+    { time: "1:30 – 2:00", title: "Multi-Agent Reinforcement Learning for Understanding Neural Computation", who: "Kanaka Rajan (Harvard Medical School & Kempner Institute)" },
+    { time: "2:00 – 2:30", title: "Spotlight Talks — Findings Track", who: "3 contributed talks, 10 min each", break: true },
+    { time: "2:30 – 3:00", title: "Coffee Break", break: true },
+    { session: "Session III — Geometric and Topological Methods for Scientific Discovery" },
+    { time: "3:00 – 3:30", title: "Geometry-Aware Generative Models for Cellular, Molecular and Neural Data", who: "Smita Krishnaswamy (Yale University)" },
+    { time: "3:30 – 4:00", title: "Talk to be announced", who: "<em>Speaker to be confirmed</em>" },
+    { time: "4:00 – 4:30", title: "Panel: Topology, Geometry, and Neuroscience — Towards a Unified Framework", who: "Claudio Battiloro, Aditya Nair, Hidenori Tanaka · Moderator: David Klindt" },
+    { time: "4:30 – 5:00", title: "Spotlight Talks", who: "3 contributed talks, 10 min each", break: true },
+    { time: "5:00 – 5:05", title: "Best Paper Awards", who: "Announcement" },
+    { time: "5:05 – 6:05", title: "Poster Session II", who: "Contributed works", break: true },
+  ];
 
   // ------------------------------------------------------------------
   // HEADSHOTS: drop a photo into images/people/ named after the
@@ -481,6 +596,24 @@
       </a>`).join("");
   }
 
+  function scheduleRow(item){
+    if (item.session){
+      return `<div class="schedule-session">${item.session}</div>`;
+    }
+    return `
+      <div class="schedule-row${item.break ? " break" : ""}">
+        <div class="schedule-time">${item.time}</div>
+        <div class="schedule-main">
+          <h4>${item.title}</h4>
+          ${item.who ? `<div class="who">${item.who}</div>` : ""}
+        </div>
+      </div>`;
+  }
+
+  function renderSchedule(){
+    document.getElementById("schedule-list").innerHTML = SCHEDULE.map(scheduleRow).join("");
+  }
+
   function tryNextExtension(img){
     const idx = parseInt(img.dataset.extIdx, 10);
     if (idx >= PHOTO_EXTENSIONS.length) return; // exhausted -> keep monogram fallback
@@ -497,8 +630,10 @@
   }
 
   renderPeople(SPEAKERS, "speakers-grid");
+  renderPeople(PANELISTS, "panelists-grid");
   renderPeople(ORGANIZERS, "organizers-grid");
   renderPastEditions();
+  renderSchedule();
   wirePhotoLoading();
 
   // ---------------- SPLASH ----------------
