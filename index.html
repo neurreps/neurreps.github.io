@@ -233,6 +233,37 @@
   .track .pages span{ font-size:15px; font-weight:700; color:var(--grey); margin-left:6px; }
   .track h3{ margin-top:14px; font-size:20px; }
   .track p{ color:var(--grey); font-size:15.5px; margin-top:10px; font-weight:400; }
+  .track .or-link{
+    display:inline-flex; margin-top:18px; font-weight:700; font-size:14px; color:var(--blue);
+    border-bottom:1px solid transparent; transition:border-color .15s ease;
+  }
+  .track .or-link:hover{ border-bottom-color:var(--blue); }
+  .cfp-scope{ margin-top:48px; max-width:720px; }
+  .cfp-scope h3{ font-size:22px; margin-bottom:14px; }
+  .cfp-scope p{ color:var(--ink); font-size:16px; margin:0 0 16px; font-weight:400; }
+  .cfp-scope p:last-child{ margin-bottom:0; }
+  .cfp-scope .themes-label{
+    font-weight:700; font-size:13.5px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--blue); margin:22px 0 12px;
+  }
+  .theme-list{
+    margin:0 0 18px; padding:0; list-style:none;
+    display:grid; gap:8px;
+  }
+  .theme-list li{
+    position:relative; padding-left:16px; color:var(--grey); font-size:15.5px; line-height:1.45;
+  }
+  .theme-list li::before{
+    content:""; position:absolute; left:0; top:0.55em;
+    width:6px; height:6px; border-radius:50%; background:var(--blue);
+  }
+  .cfp-findings{
+    margin-top:40px; max-width:720px;
+    border-left:3px solid var(--blue); padding:4px 0 4px 22px;
+  }
+  .cfp-findings h3{ font-size:22px; margin-bottom:14px; }
+  .cfp-findings p{ color:var(--ink); font-size:16px; margin:0 0 14px; font-weight:400; }
+  .cfp-findings p:last-child{ margin-bottom:0; }
   .cfp-note{
     background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:8px;
     padding:18px 22px; font-size:15.5px; color:var(--ink); margin-top:24px; line-height:1.5;
@@ -420,21 +451,49 @@
           <div class="pages">9<span>pages, excl. refs</span></div>
           <h3>Proceedings Track</h3>
           <p>Self-contained, highly-developed research papers. Archivally published in a dedicated PMLR volume. Double-blind review via OpenReview.</p>
+          <a class="or-link" href="https://openreview.net/group?id=NeurIPS.cc/2026/Workshop/NeurReps_Proceedings" target="_blank" rel="noopener noreferrer">Submit on OpenReview →</a>
         </div>
         <div class="track">
           <div class="pages">4<span>pages, excl. refs</span></div>
           <h3>Extended Abstract Track</h3>
           <p>Early-stage results, negative findings, opinion pieces, or novel datasets. Non-archival — may be posted to arXiv. Double-blind review via OpenReview.</p>
+          <a class="or-link" href="https://openreview.net/group?id=NeurIPS.cc/2026/Workshop/NeurReps_Extended_Abstracts" target="_blank" rel="noopener noreferrer">Submit on OpenReview →</a>
         </div>
         <div class="track">
           <div class="pages">—<span>no page limit</span></div>
           <h3>Findings Track</h3>
           <p>New this year: high-impact collaborative work between experimentalists and theorists, in any standard preprint format. Single-blind, editorially reviewed by the organizing committee.</p>
+          <a class="or-link" href="https://openreview.net/group?id=NeurIPS.cc/2026/Workshop/NeurReps_Findings" target="_blank" rel="noopener noreferrer">Submit on OpenReview →</a>
         </div>
       </div>
 
       <div class="cta-row" style="margin-top:24px;">
         <a class="btn btn-outline" href="files/NeurReps_2026_Template.zip" download>Download LaTeX Template (.zip)</a>
+      </div>
+
+      <div class="cfp-scope">
+        <h3>What We’re Looking For</h3>
+        <p>We invite submissions of novel research at the intersection of applied mathematics, deep learning, and computational neuroscience — work that incorporates symmetry and geometry into neural network design, the mechanistic interpretability of neural systems (biological or artificial), or theories of neural computation. We welcome contributions spanning geometric and topological deep learning, computational and theoretical neuroscience, geometric statistics, and topological data analysis.</p>
+        <div class="themes-label">Particularly relevant themes</div>
+        <ul class="theme-list">
+          <li>Theory and methods for learning invariant and equivariant representations</li>
+          <li>Statistical learning theory in the context of topology, geometry, and symmetry</li>
+          <li>Representational geometry in neural data</li>
+          <li>Learning and leveraging group structure in data</li>
+          <li>Equivariant world models for robotics</li>
+          <li>Dynamics of neural representations</li>
+          <li>Topological deep learning and topological data analysis</li>
+          <li>Geometric structure in language</li>
+          <li>Geometric and topological analysis of generative models</li>
+          <li>Symmetries, dynamical systems, and learning</li>
+        </ul>
+        <p>We hope to see both theoretical contributions and applied results in domains including vision, motor control, navigation, and language, as well as the use of diverse mathematical objects such as quotient spaces, fiber bundles, Lie groups, Riemannian manifolds, graphs, topological domains, and group representations. We also welcome benchmark datasets and software. This list is guidance, not exhaustive — if you are unsure whether your work is in scope, please reach out to the organizers.</p>
+      </div>
+
+      <div class="cfp-findings">
+        <h3>A Novel Findings Track</h3>
+        <p>NeurReps has long been a primary home for broad computational and theoretical neuroscience work outside the scope of traditional machine learning venues. To honor and extend NeurIPS’s historic ties to systems neuroscience, we are introducing a <strong>Findings Track</strong> for high-impact collaborative work between experimentalists and theorists — early versions of work of the caliber published in venues such as <em>Cell</em>, <em>Nature</em>, or <em>Science</em>, with the goal of early community exposure and dialogue between ML researchers and experimental neuroscientists.</p>
+        <p>The track is designed with <strong>minimal barriers to entry</strong>: no page limits, and any standard preprint format is welcome. Because lab and dataset identity are often inseparable from the work, submissions are <strong>single-blind</strong> and reviewed editorially by the organizing committee and trusted advisors (two reviews plus a meta-review with concrete feedback). There is no OpenReview display for this track, though authors may optionally post preprints in our workshop format. Contributors present as <strong>posters</strong>, with a subset selected for <strong>spotlight talks</strong>.</p>
       </div>
 
       <p class="cfp-note"><strong>All submitting authors need an OpenReview profile</strong> for the Proceedings and Extended Abstract tracks — creating one can take a few days, so please don't wait until the deadline. For the Findings track, only the submitting author needs a profile; co-authors can be added by email.</p>
