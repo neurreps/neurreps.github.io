@@ -411,18 +411,13 @@
   </section>
 
   <!-- ============ AREA CHAIRS ============ -->
-  <section class="section">
+  <section class="section" id="area-chairs">
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow">Team</div>
         <h2>Area Chairs</h2>
       </div>
-      <div class="people-grid">
-        <div class="tba-tile">
-          <span>Area chairs for the 2026 edition are being finalized.</span>
-          <span class="badge">Announcing soon</span>
-        </div>
-      </div>
+      <div class="people-grid" id="area-chairs-grid"></div>
     </div>
   </section>
 
@@ -573,6 +568,18 @@
     { name: "David Klindt", affiliation: "Cold Spring Harbor Laboratory", website: "https://www.cshl.edu/research/faculty-staff/david-klindt/" },
     { name: "Fatih Dinc", affiliation: "KITP", website: "https://sites.google.com/view/fatihdinc/home" },
     { name: "Nina Miolane", affiliation: "UC Santa Barbara", website: "https://www.ninamiolane.com/" },
+  ];
+
+  const AREA_CHAIRS = [
+    { name: "Andy Keller", affiliation: "", website: "" },
+    { name: "Lev Telyatnikov", affiliation: "", website: "" },
+    { name: "Mathilde Papillon", affiliation: "", website: "" },
+    { name: "Jacob Zavatone-Veth", affiliation: "", website: "" },
+    { name: "Bastian Rieck", affiliation: "", website: "" },
+    { name: "Binxui Wang", affiliation: "", website: "" },
+    { name: "Manu Madhav", affiliation: "", website: "" },
+    { name: "Tolga Birdal", affiliation: "", website: "" },
+    { name: "Sharvaree Vadgama", affiliation: "", website: "" },
   ];
 
   // Add past years here as they're archived, e.g.:
@@ -806,6 +813,7 @@
   renderPeople(SPEAKERS, "speakers-grid");
   renderPeople(PANELISTS, "panelists-grid");
   renderPeople(ORGANIZERS, "organizers-grid");
+  renderPeople(AREA_CHAIRS, "area-chairs-grid");
   renderPastEditions();
   renderSchedule();
   wirePhotoLoading();
