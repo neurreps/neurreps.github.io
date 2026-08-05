@@ -210,6 +210,11 @@
     font-weight:700; font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase;
     border:1px solid var(--blue-line); background:var(--blue-soft); border-radius:99px; padding:5px 12px; color:var(--blue);
   }
+  .name-list{
+    display:flex; flex-wrap:wrap; gap:8px 0; align-items:center;
+    font-size:17px; font-weight:700; color:var(--ink); line-height:1.6;
+  }
+  .name-list .sep{ color:var(--blue); margin:0 14px; font-weight:900; }
 
   /* ---------------- CFP TRACKS ---------------- */
   .deadline-row{ display:flex; flex-wrap:wrap; gap:14px; margin:28px 0 36px; }
@@ -417,7 +422,17 @@
         <div class="eyebrow">Team</div>
         <h2>Area Chairs</h2>
       </div>
-      <div class="people-grid" id="area-chairs-grid"></div>
+      <div class="name-list">
+        <span>Andy Keller</span><span class="sep">·</span>
+        <span>Lev Telyatnikov</span><span class="sep">·</span>
+        <span>Mathilde Papillon</span><span class="sep">·</span>
+        <span>Jacob Zavatone-Veth</span><span class="sep">·</span>
+        <span>Bastian Rieck</span><span class="sep">·</span>
+        <span>Binxui Wang</span><span class="sep">·</span>
+        <span>Manu Madhav</span><span class="sep">·</span>
+        <span>Tolga Birdal</span><span class="sep">·</span>
+        <span>Sharvaree Vadgama</span>
+      </div>
     </div>
   </section>
 
@@ -568,18 +583,6 @@
     { name: "David Klindt", affiliation: "Cold Spring Harbor Laboratory", website: "https://www.cshl.edu/research/faculty-staff/david-klindt/" },
     { name: "Fatih Dinc", affiliation: "KITP", website: "https://sites.google.com/view/fatihdinc/home" },
     { name: "Nina Miolane", affiliation: "UC Santa Barbara", website: "https://www.ninamiolane.com/" },
-  ];
-
-  const AREA_CHAIRS = [
-    { name: "Andy Keller", affiliation: "", website: "" },
-    { name: "Lev Telyatnikov", affiliation: "", website: "" },
-    { name: "Mathilde Papillon", affiliation: "", website: "" },
-    { name: "Jacob Zavatone-Veth", affiliation: "", website: "" },
-    { name: "Bastian Rieck", affiliation: "", website: "" },
-    { name: "Binxui Wang", affiliation: "", website: "" },
-    { name: "Manu Madhav", affiliation: "", website: "" },
-    { name: "Tolga Birdal", affiliation: "", website: "" },
-    { name: "Sharvaree Vadgama", affiliation: "", website: "" },
   ];
 
   // Add past years here as they're archived, e.g.:
@@ -813,7 +816,6 @@
   renderPeople(SPEAKERS, "speakers-grid");
   renderPeople(PANELISTS, "panelists-grid");
   renderPeople(ORGANIZERS, "organizers-grid");
-  renderPeople(AREA_CHAIRS, "area-chairs-grid");
   renderPastEditions();
   renderSchedule();
   wirePhotoLoading();
