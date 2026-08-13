@@ -222,6 +222,12 @@
     border:1.5px solid var(--line); flex:none;
   }
   .name-list .sep{ color:var(--blue); margin:0 10px; font-weight:900; }
+  .name-list.board{ gap:18px 10px; font-size:17px; }
+  .name-list.board .ac img{
+    width:64px; height:64px;
+  }
+  a.ac{ color:inherit; transition:color .15s ease; }
+  a.ac:hover{ color:var(--blue); }
 
   /* ---------------- CFP TRACKS ---------------- */
   .deadline-row{ display:flex; flex-wrap:wrap; gap:14px; margin:28px 0 36px; }
@@ -515,7 +521,19 @@
       <div class="cfp-findings">
         <h3>A Novel Findings Track</h3>
         <p>NeurReps has long been a primary home for broad computational and theoretical neuroscience work outside the scope of traditional machine learning venues. To honor and extend NeurIPS’s historic ties to systems neuroscience, we are introducing a <strong>Findings Track</strong> for high-impact collaborative work between experimentalists and theorists — early versions of work of the caliber published in venues such as <em>Cell</em>, <em>Nature</em>, or <em>Science</em>, with the goal of early community exposure and dialogue between ML researchers and experimental neuroscientists.</p>
-        <p>The track is designed with <strong>minimal barriers to entry</strong>: no page limits, and any standard preprint format is welcome. No complex machine learning or deep learning is required — just some form of geometry, topology, or algebra. For example, work such as Gardner et al.’s <em>Toroidal topology of population activity in grid cells</em> (<em>Nature</em>, 2022) would be a natural fit. Because lab and dataset identity are often inseparable from the work, submissions are <strong>single-blind</strong>. Contributors present as <strong>posters</strong>, with a subset selected for <strong>spotlight talks</strong>.</p>
+        <p>The track is designed with <strong>minimal barriers to entry</strong>: no page limits, and any standard preprint format is welcome. No complex machine learning or deep learning is required — just some form of geometry, topology, or algebra. For example, work such as Gardner et al.’s <em>Toroidal topology of population activity in grid cells</em> (<em>Nature</em>, 2022) would be a natural fit. Because lab and dataset identity are often inseparable from the work, submissions are <strong>single-blind</strong>. Contributors present as <strong>posters</strong>, with a subset selected for <strong>spotlight talks</strong> by an advisory board of experts in the field.</p>
+      </div>
+
+      <div class="cfp-scope" id="findings-board">
+        <h3>Novel Findings Advisory Board</h3>
+        <p style="margin-bottom:22px;">Editorial review for the Findings Track is led by the following advisory board.</p>
+        <div class="name-list board">
+          <a class="ac" href="https://directory.engineering.upenn.edu/eva-dyer/" target="_blank" rel="noopener noreferrer"><img src="images/board/eva-dyer.jpg" alt="">Eva Dyer</a><span class="sep">·</span>
+          <a class="ac" href="https://med.emory.edu/directory/profile/?u=CPANDAR" target="_blank" rel="noopener noreferrer"><img src="images/board/chethan-pandarinath.jpg" alt="">Chethan Pandarinath</a><span class="sep">·</span>
+          <a class="ac" href="https://alexhwilliams.info/" target="_blank" rel="noopener noreferrer"><img src="images/board/alex-williams.jpg" alt="">Alex Williams</a><span class="sep">·</span>
+          <a class="ac" href="https://pni.princeton.edu/people/jonathan-pillow" target="_blank" rel="noopener noreferrer"><img src="images/board/jonathan-pillow.jpg" alt="">Jonathan Pillow</a><span class="sep">·</span>
+          <a class="ac" href="https://www.gatsby.ucl.ac.uk/~maneesh/" target="_blank" rel="noopener noreferrer"><img src="images/board/maneesh-sahani.avif" alt="">Maneesh Sahani</a>
+        </div>
       </div>
 
       <div class="cfp-scope">
