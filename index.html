@@ -199,17 +199,6 @@
     .schedule-time{ width:auto; }
   }
 
-  .tba-tile{
-    grid-column:1/-1;
-    border:1px dashed var(--line); border-radius:8px;
-    padding:32px; display:flex; align-items:center; justify-content:space-between;
-    flex-wrap:wrap; gap:16px; color:var(--grey);
-  }
-  .tba-tile strong{ color:var(--ink); font-weight:700; }
-  .tba-tile .badge{
-    font-weight:700; font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase;
-    border:1px solid var(--blue-line); background:var(--blue-soft); border-radius:99px; padding:5px 12px; color:var(--blue);
-  }
   .name-list{
     display:flex; flex-wrap:wrap; gap:14px 8px; align-items:center;
     font-size:16px; font-weight:700; color:var(--ink); line-height:1.4;
@@ -293,13 +282,6 @@
   .sponsor-row a{ color:var(--blue); font-weight:700; }
 
   /* ---------------- PAST EDITIONS ---------------- */
-  .editions-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; }
-  .edition-card{
-    border:1px solid var(--line); border-radius:8px; padding:22px; text-align:center;
-  }
-  .edition-card .year{ font-weight:900; font-size:24px; color:var(--blue); }
-  .edition-card .venue{ color:var(--grey); font-size:14px; margin-top:6px; }
-
   /* ---------------- FOOTER ---------------- */
   footer{ border-top:1px solid var(--line); padding:56px 0 40px; }
   .footer-grid{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:32px; align-items:flex-start; }
@@ -459,7 +441,8 @@
         <a class="ac" href="https://georg-bn.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/georg_bokman.png" alt="">Georg Bökman</a><span class="sep">·</span>
         <a class="ac" href="https://scholar.google.com/citations?user=WrD80M0AAAAJ&hl=fr" target="_blank" rel="noopener noreferrer"><img src="images/acs/remi-devaux.webp" alt="">Rémi Devaux</a><span class="sep">·</span>
         <a class="ac" href="https://www.pnnl.gov/people/tegan-emerson" target="_blank" rel="noopener noreferrer"><img src="images/acs/tegan-emerson.jpg" alt="">Tegan Emerson</a><span class="sep">·</span>
-        <a class="ac" href="https://jl2ml.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/jiayi-li.jpg" alt="">Jiayi Li</a>
+        <a class="ac" href="https://jl2ml.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/jiayi-li.jpg" alt="">Jiayi Li</a><span class="sep">·</span>
+        <a class="ac" href="https://www.sophiasanborn.com/" target="_blank" rel="noopener noreferrer"><img src="images/acs/sophia-sanborn.jpg" alt="">Sophia Sanborn</a>
       </div>
     </div>
   </section>
@@ -574,9 +557,11 @@
       <div class="section-head">
         <div class="eyebrow">Archive</div>
         <h2>Past Editions</h2>
-        <p>A running history of NeurReps at NeurIPS — organizers, speakers, and proceedings from each year.</p>
       </div>
-      <div class="editions-grid" id="editions-grid"></div>
+      <div class="sponsor-row">Proceedings from NeurReps 2025 (San Diego) and NeurReps 2024 (Vancouver) are both published in <a href="https://proceedings.mlr.press/v282/" target="_blank" rel="noopener noreferrer">PMLR Volume 282</a>.</div>
+      <div class="cta-row" style="margin-top:16px;">
+        <a class="btn btn-outline" href="files/neurreps-2025-schedule.jpg" target="_blank" rel="noopener noreferrer">View 2025 Schedule Poster (San Diego)</a>
+      </div>
     </div>
   </section>
 </main>
@@ -626,10 +611,6 @@
     { name: "Fatih Dinc", affiliation: "KITP", website: "https://sites.google.com/view/fatihdinc/home" },
     { name: "Nina Miolane", affiliation: "UC Santa Barbara", website: "https://www.ninamiolane.com/" },
   ];
-
-  // Add past years here as they're archived, e.g.:
-  // { year: 2025, venue: "Vancouver, Canada", proceedingsUrl: "https://..." }
-  const PAST_EDITIONS = [];
 
   // Tentative schedule, adapted from the workshop proposal. `session` entries
   // render as section dividers; everything else is a timed row. `break: true`
@@ -699,23 +680,6 @@
 
   function renderPeople(list, mountId){
     document.getElementById(mountId).innerHTML = list.map(personCard).join("");
-  }
-
-  function renderPastEditions(){
-    const mount = document.getElementById("editions-grid");
-    if (PAST_EDITIONS.length === 0){
-      mount.innerHTML = `
-        <div class="tba-tile">
-          <span>The archive of past NeurReps editions is being migrated here.</span>
-          <span class="badge">Coming soon</span>
-        </div>`;
-      return;
-    }
-    mount.innerHTML = PAST_EDITIONS.map(e => `
-      <a class="edition-card" href="${e.proceedingsUrl || '#'}">
-        <div class="year">${e.year}</div>
-        <div class="venue">${e.venue}</div>
-      </a>`).join("");
   }
 
   function scheduleRow(item){
@@ -858,7 +822,6 @@
   renderPeople(SPEAKERS, "speakers-grid");
   renderPeople(PANELISTS, "panelists-grid");
   renderPeople(ORGANIZERS, "organizers-grid");
-  renderPastEditions();
   renderSchedule();
   wirePhotoLoading();
   initPolyhedra();
