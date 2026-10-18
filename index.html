@@ -596,6 +596,7 @@
     { name: "Melanie Weber", affiliation: "Harvard", website: "https://melanie-weber.com/" },
     { name: "Michael Galkin", affiliation: "Google DeepMind", website: "https://migalkin.github.io/" },
     { name: "Smita Krishnaswamy", affiliation: "Yale", website: "https://krishnaswamylab.org/" },
+    { name: "Peng (Paul) Yuan", affiliation: "Fudan University", website: "http://www.theyuanlab.net/" },
   ];
 
   const PANELISTS = [
@@ -631,7 +632,7 @@
     { time: "2:30 – 3:00", title: "Coffee Break", break: true },
     { session: "Session III — Geometric and Topological Methods for Scientific Discovery" },
     { time: "3:00 – 3:30", title: "Geometry-Aware Generative Models for Cellular, Molecular and Neural Data", who: "Smita Krishnaswamy (Yale University)" },
-    { time: "3:30 – 4:00", title: "Talk to be announced", who: "<em>Speaker to be confirmed</em>" },
+    { time: "3:30 – 4:00", title: "Neuron activities steer attractors approximation during memory processing in mice", who: "Peng (Paul) Yuan (Fudan University)" },
     { time: "4:00 – 4:30", title: "Panel: Topology, Geometry, and Neuroscience — Towards a Unified Framework", who: "Claudio Battiloro, Aditya Nair, Hidenori Tanaka · Moderator: David Klindt" },
     { time: "4:30 – 5:00", title: "Spotlight Talks", who: "3 contributed talks, 10 min each", break: true },
     { time: "5:00 – 5:05", title: "Best Paper Awards", who: "Announcement" },
@@ -640,8 +641,9 @@
 
   // ------------------------------------------------------------------
   // HEADSHOTS: drop a photo into images/people/ named after the
-  // person's slug (lowercase name, spaces -> hyphens, e.g. "Nina
-  // Miolane" -> "nina-miolane.jpg") and it will appear automatically —
+  // person's slug (lowercase name, spaces -> hyphens, parenthetical
+  // nicknames dropped, e.g. "Nina Miolane" -> "nina-miolane.jpg",
+  // "Peng (Paul) Yuan" -> "peng-yuan.jpg") and it will appear automatically —
   // no HTML/JS edits needed. Any of these extensions works: jpg, jpeg,
   // png, webp. If no matching file is found, a colored monogram
   // placeholder is shown instead.
@@ -655,12 +657,16 @@
 
   function slugify(name){
     return name.toLowerCase().trim()
+      .replace(/\([^)]*\)/g, " ")
       .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-");
+      .replace(/\s+/g, "-")
+      .replace(/^-+|-+$/g, "");
   }
 
   function initials(name){
-    return name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+    return name.split(" ")
+      .filter(w => /^[A-Za-z]/.test(w))
+      .map(w => w[0]).join("").slice(0,2).toUpperCase();
   }
 
   function personCard(p, i){
