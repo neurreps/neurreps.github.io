@@ -102,19 +102,23 @@
     display:grid; grid-template-columns:1fr; gap:48px; align-items:center; margin-top:48px;
   }
   @media(min-width:920px){ .hero-lower{ grid-template-columns:0.9fr 1.1fr; } }
-  .hero-logo img{ width:100%; max-width:420px; }
+  .hero-logo img{
+    width:100%; max-width:420px; border-radius:50%;
+    cursor:grab; touch-action:none; user-select:none; -webkit-user-drag:none;
+    will-change:transform;
+  }
+  .hero-logo img.dragging{ cursor:grabbing; }
   .hero .lede{ color:var(--grey); font-size:19.5px; max-width:52ch; font-weight:400; }
   .event-meta{
     margin-top:28px; font-size:16.5px; color:var(--ink); font-weight:400;
   }
   .event-meta strong{ font-weight:700; }
-  .event-meta .sep{ color:var(--line); margin:0 10px; }
   .cta-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
   .btn{
     font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:0.01em;
     padding:12px 22px; border-radius:4px; border:1px solid transparent; cursor:pointer;
     transition:transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
-    display:inline-flex; align-items:center; gap:8px;
+    display:flex; align-items:center; gap:12px;
   }
   .btn-solid{ background:var(--blue); color:var(--white); }
   .btn-solid:hover{ transform:translateY(-1px); background:#2400d9; }
@@ -140,13 +144,16 @@
   @media(prefers-reduced-motion:reduce){ .polyhedron{ opacity:0.4; } }
 
   /* ---------------- PEOPLE GRIDS ---------------- */
-  .people-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px; }
+  .people-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:36px 28px; }
+  /* six speakers: 3 + 3 on desktop, 2 + 2 + 2 on tablets/phones */
+  #speakers-grid{ grid-template-columns:repeat(3,1fr); }
+  @media(max-width:760px){ #speakers-grid{ grid-template-columns:repeat(2,1fr); } }
   .person{
-    background:var(--white); border:1px solid var(--line); border-radius:12px;
-    padding:20px; transition:border-color .15s ease, background .15s ease;
+    transition:transform .25s ease;
     display:flex; flex-direction:column; align-items:center; text-align:center; gap:2px;
   }
-  a.person:hover{ border-color:var(--blue); background:var(--blue-soft); cursor:pointer; }
+  a.person:hover{ transform:translateY(-3px); cursor:pointer; }
+  @media(prefers-reduced-motion:reduce){ a.person:hover{ transform:none; } }
   .photo-wrap{ position:relative; width:100%; aspect-ratio:1/1; margin-bottom:16px; }
   .photo{
     width:100%; height:100%; border-radius:10px; object-fit:cover;
@@ -184,20 +191,19 @@
   }
 
   .name-list{
-    display:flex; flex-wrap:wrap; gap:14px 8px; align-items:center;
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px 24px; align-items:center;
     font-size:16px; font-weight:700; color:var(--ink); line-height:1.4;
   }
   .name-list .ac{
-    display:inline-flex; align-items:center; gap:8px;
+    display:flex; align-items:center; gap:12px;
   }
   .name-list .ac img{
-    width:48px; height:48px; border-radius:50%; object-fit:cover;
+    width:48px; height:48px; border-radius:6px; object-fit:cover;
     border:1.5px solid var(--line); flex:none;
   }
-  .name-list .sep{ color:var(--blue); margin:0 10px; font-weight:900; }
-  .name-list.board{ gap:18px 10px; font-size:17px; }
+  .name-list.board{ grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px 24px; font-size:17px; }
   .name-list.board .ac img{
-    width:64px; height:64px;
+    width:64px; height:64px; border-radius:8px;
   }
   a.ac{ color:inherit; transition:color .15s ease; }
   a.ac:hover{ color:var(--blue); }
@@ -300,23 +306,23 @@
   <!-- ============ HERO ============ -->
   <section class="hero" id="about">
     <div class="wrap">
-      <div class="eyebrow">NeurIPS 2026 Workshop · Sydney, Australia</div>
+      <div class="eyebrow">NeurIPS 2026 Workshop</div>
       <h1 class="full-title">Symmetry and Geometry in Neural Representations</h1>
 
       <div class="hero-lower">
         <div class="hero-logo">
-          <img src="images/logo/e8-petrie.png" alt="E8 Petrie polytope projection — the NeurReps logo">
+          <img id="e8-logo" src="images/logo/e8-petrie.png" alt="E8 Petrie polytope projection, the NeurReps logo" draggable="false">
         </div>
         <div>
           <p class="lede">
-            A gathering of mathematicians, machine learning researchers, and neuroscientists
-            working to uncover the geometric principles shared by brains and machines.
+            A gathering of mathematicians, AI researchers, and neuroscientists
+            working to uncover the geometric principles of computation in brains and machines.
           </p>
           <p class="event-meta">
-            <strong>Friday, December 11, 2026</strong><span class="sep">·</span>International Convention Centre (ICC), Sydney<span class="sep">·</span>Hall 4
+            <strong>Friday, December 11, 2026</strong><br>Hall 4, International Convention Centre (ICC), Sydney, Australia
           </p>
           <div class="cta-row">
-            <a class="btn btn-solid" href="#cfp">Call for Papers · Closed</a>
+            <a class="btn btn-solid" href="#cfp">Call for Papers (Closed)</a>
             <!-- TODO: this raw invite link expires in 30 days. Set up a permanent link at inviter.co/neurreps and swap it in here + footer. -->
             <a class="btn btn-outline" href="https://join.slack.com/t/neurreps/shared_invite/zt-44gysky3l-iQnnHBPC_2u~h1r8LPKfLw">Join the Slack</a>
           </div>
@@ -331,7 +337,7 @@
       <div class="mission-body">
         <p>The fields of biological and artificial intelligence are converging on a shared principle: the geometry and topology of real-world structure play a central role in building efficient, robust, and interpretable representations.</p>
         <p>In neuroscience, mounting evidence suggests that neural circuits encode task and environmental structure through low-dimensional manifolds, conserved symmetries, and structured transformations. In deep learning, sparsity, equivariance, and compositionality are guiding the development of more generalizable and interpretable models.</p>
-        <p>NeurReps brings these threads together — fostering dialogue among machine learning researchers, neuroscientists, and mathematicians working to uncover unifying geometric principles of neural computation.</p>
+        <p>NeurReps brings these threads together, fostering dialogue among AI researchers, neuroscientists, and mathematicians working to uncover unifying geometric principles of neural computation.</p>
       </div>
       <div class="mission-aside">
         <div class="polyhedra-row" id="polyhedra-row" aria-hidden="true"></div>
@@ -395,31 +401,31 @@
         <h2>Area Chairs</h2>
       </div>
       <div class="name-list">
-        <a class="ac" href="https://akandykeller.github.io/about/" target="_blank" rel="noopener noreferrer"><img src="images/acs/andy-keller.jpg" alt="">Andy Keller</a><span class="sep">·</span>
-        <a class="ac" href="https://scholar.google.com/citations?user=MzFz-tcAAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/lev-telyatnikov.jpg" alt="">Lev Telyatnikov</a><span class="sep">·</span>
-        <a class="ac" href="https://www.mathildep.ca/" target="_blank" rel="noopener noreferrer"><img src="images/acs/mathilde-papillon.jpg" alt="">Mathilde Papillon</a><span class="sep">·</span>
-        <a class="ac" href="https://jzv.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/jacob-zavatone-veth.png" alt="">Jacob Zavatone-Veth</a><span class="sep">·</span>
-        <a class="ac" href="https://bastian.rieck.me/" target="_blank" rel="noopener noreferrer"><img src="images/acs/bastian-rieck.jpg" alt="">Bastian Rieck</a><span class="sep">·</span>
-        <a class="ac" href="https://animadversio.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/binxu-wang.jpg" alt="">Binxu Wang</a><span class="sep">·</span>
-        <a class="ac" href="https://bme.ubc.ca/?directory=manu-madhav" target="_blank" rel="noopener noreferrer"><img src="images/acs/manu-madhav.jpg" alt="">Manu Madhav</a><span class="sep">·</span>
-        <a class="ac" href="https://tolgabirdal.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/tolga-birdal.jpg" alt="">Tolga Birdal</a><span class="sep">·</span>
-        <a class="ac" href="https://scholar.google.com/citations?user=YUye6xwAAAAJ&hl=es" target="_blank" rel="noopener noreferrer"><img src="images/acs/guillermo-bernardez.png" alt="">Guillermo Bernárdez</a><span class="sep">·</span>
-        <a class="ac" href="https://sharvaree.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/sharvaree-vadgama.jpg" alt="">Sharvaree Vadgama</a><span class="sep">·</span>
-        <a class="ac" href="https://scholar.google.com/citations?user=wUwGim8AAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/a-erdem-sagtekin.jpg" alt="">A. Erdem Sağtekin</a><span class="sep">·</span>
-        <a class="ac" href="https://terranovafr.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/franco-terranova.jpg" alt="">Franco Terranova</a><span class="sep">·</span>
-        <a class="ac" href="https://scholar.google.com/citations?user=Y9-58ZwAAAAJ&hl=de" target="_blank" rel="noopener noreferrer"><img src="images/acs/julian-suk.jpg" alt="">Julian Suk</a><span class="sep">·</span>
-        <a class="ac" href="https://scholar.google.com/citations?user=jEBzTnsAAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/maria-sofia-bucarelli.jpg" alt="">Maria Sofia Bucarelli</a><span class="sep">·</span>
-        <a class="ac" href="https://ppaamm.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/pierre-alexandre-murena.jpg" alt="">Pierre-Alexandre Murena</a><span class="sep">·</span>
-        <a class="ac" href="https://www2.compute.dtu.dk/~gear/" target="_blank" rel="noopener noreferrer"><img src="images/acs/georgios-arvanatidis.jpg" alt="">Georgios Arvanitidis</a><span class="sep">·</span>
-        <a class="ac" href="https://sites.google.com/view/antonmallasto/home" target="_blank" rel="noopener noreferrer"><img src="images/acs/anton-mallasto.png" alt="">Anton Mallasto</a><span class="sep">·</span>
-        <a class="ac" href="https://scholar.google.com/citations?user=UPchH6sAAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/amirreza-akbari.jpg" alt="">Amirreza Akbari</a><span class="sep">·</span>
-        <a class="ac" href="https://www.iolojones.co.uk/" target="_blank" rel="noopener noreferrer"><img src="images/acs/iolo-jones.png" alt="">Iolo Jones</a><span class="sep">·</span>
-        <a class="ac" href="https://amauriholanda.org/" target="_blank" rel="noopener noreferrer"><img src="images/acs/amauri-souza.jpg" alt="">Amauri Souza</a><span class="sep">·</span>
-        <a class="ac" href="https://georg-bn.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/georg_bokman.png" alt="">Georg Bökman</a><span class="sep">·</span>
-        <a class="ac" href="https://scholar.google.com/citations?user=WrD80M0AAAAJ&hl=fr" target="_blank" rel="noopener noreferrer"><img src="images/acs/remi-devaux.webp" alt="">Rémi Devaux</a><span class="sep">·</span>
-        <a class="ac" href="https://www.pnnl.gov/people/tegan-emerson" target="_blank" rel="noopener noreferrer"><img src="images/acs/tegan-emerson.jpg" alt="">Tegan Emerson</a><span class="sep">·</span>
-        <a class="ac" href="https://jl2ml.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/jiayi-li.jpg" alt="">Jiayi Li</a><span class="sep">·</span>
-        <a class="ac" href="https://www.sophiasanborn.com/" target="_blank" rel="noopener noreferrer"><img src="images/acs/sophia-sanborn.jpg" alt="">Sophia Sanborn</a><span class="sep">·</span>
+        <a class="ac" href="https://akandykeller.github.io/about/" target="_blank" rel="noopener noreferrer"><img src="images/acs/andy-keller.jpg" alt="">Andy Keller</a>
+        <a class="ac" href="https://scholar.google.com/citations?user=MzFz-tcAAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/lev-telyatnikov.jpg" alt="">Lev Telyatnikov</a>
+        <a class="ac" href="https://www.mathildep.ca/" target="_blank" rel="noopener noreferrer"><img src="images/acs/mathilde-papillon.jpg" alt="">Mathilde Papillon</a>
+        <a class="ac" href="https://jzv.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/jacob-zavatone-veth.png" alt="">Jacob Zavatone-Veth</a>
+        <a class="ac" href="https://bastian.rieck.me/" target="_blank" rel="noopener noreferrer"><img src="images/acs/bastian-rieck.jpg" alt="">Bastian Rieck</a>
+        <a class="ac" href="https://animadversio.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/binxu-wang.jpg" alt="">Binxu Wang</a>
+        <a class="ac" href="https://bme.ubc.ca/?directory=manu-madhav" target="_blank" rel="noopener noreferrer"><img src="images/acs/manu-madhav.jpg" alt="">Manu Madhav</a>
+        <a class="ac" href="https://tolgabirdal.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/tolga-birdal.jpg" alt="">Tolga Birdal</a>
+        <a class="ac" href="https://scholar.google.com/citations?user=YUye6xwAAAAJ&hl=es" target="_blank" rel="noopener noreferrer"><img src="images/acs/guillermo-bernardez.png" alt="">Guillermo Bernárdez</a>
+        <a class="ac" href="https://sharvaree.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/sharvaree-vadgama.jpg" alt="">Sharvaree Vadgama</a>
+        <a class="ac" href="https://scholar.google.com/citations?user=wUwGim8AAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/a-erdem-sagtekin.jpg" alt="">A. Erdem Sağtekin</a>
+        <a class="ac" href="https://terranovafr.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/franco-terranova.jpg" alt="">Franco Terranova</a>
+        <a class="ac" href="https://scholar.google.com/citations?user=Y9-58ZwAAAAJ&hl=de" target="_blank" rel="noopener noreferrer"><img src="images/acs/julian-suk.jpg" alt="">Julian Suk</a>
+        <a class="ac" href="https://scholar.google.com/citations?user=jEBzTnsAAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/maria-sofia-bucarelli.jpg" alt="">Maria Sofia Bucarelli</a>
+        <a class="ac" href="https://ppaamm.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/pierre-alexandre-murena.jpg" alt="">Pierre-Alexandre Murena</a>
+        <a class="ac" href="https://www2.compute.dtu.dk/~gear/" target="_blank" rel="noopener noreferrer"><img src="images/acs/georgios-arvanatidis.jpg" alt="">Georgios Arvanitidis</a>
+        <a class="ac" href="https://sites.google.com/view/antonmallasto/home" target="_blank" rel="noopener noreferrer"><img src="images/acs/anton-mallasto.png" alt="">Anton Mallasto</a>
+        <a class="ac" href="https://scholar.google.com/citations?user=UPchH6sAAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><img src="images/acs/amirreza-akbari.jpg" alt="">Amirreza Akbari</a>
+        <a class="ac" href="https://www.iolojones.co.uk/" target="_blank" rel="noopener noreferrer"><img src="images/acs/iolo-jones.png" alt="">Iolo Jones</a>
+        <a class="ac" href="https://amauriholanda.org/" target="_blank" rel="noopener noreferrer"><img src="images/acs/amauri-souza.jpg" alt="">Amauri Souza</a>
+        <a class="ac" href="https://georg-bn.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/georg_bokman.png" alt="">Georg Bökman</a>
+        <a class="ac" href="https://scholar.google.com/citations?user=WrD80M0AAAAJ&hl=fr" target="_blank" rel="noopener noreferrer"><img src="images/acs/remi-devaux.webp" alt="">Rémi Devaux</a>
+        <a class="ac" href="https://www.pnnl.gov/people/tegan-emerson" target="_blank" rel="noopener noreferrer"><img src="images/acs/tegan-emerson.jpg" alt="">Tegan Emerson</a>
+        <a class="ac" href="https://jl2ml.github.io/" target="_blank" rel="noopener noreferrer"><img src="images/acs/jiayi-li.jpg" alt="">Jiayi Li</a>
+        <a class="ac" href="https://www.sophiasanborn.com/" target="_blank" rel="noopener noreferrer"><img src="images/acs/sophia-sanborn.jpg" alt="">Sophia Sanborn</a>
         <a class="ac" href="https://samuel.nihil.ws/" target="_blank" rel="noopener noreferrer"><img src="images/acs/samuel-matthiesen.jpg" alt="">Samuel Matthiesen</a>
       </div>
     </div>
@@ -499,13 +505,13 @@
         <h3>Novel Findings Advisory Board</h3>
         <p style="margin-bottom:22px;">Editorial review for the Findings Track is led by the following advisory board.</p>
         <div class="name-list board">
-          <a class="ac" href="https://directory.engineering.upenn.edu/eva-dyer/" target="_blank" rel="noopener noreferrer"><img src="images/board/eva-dyer.jpg" alt="">Eva Dyer</a><span class="sep">·</span>
-          <a class="ac" href="https://med.emory.edu/directory/profile/?u=CPANDAR" target="_blank" rel="noopener noreferrer"><img src="images/board/chethan-pandarinath.jpg" alt="">Chethan Pandarinath</a><span class="sep">·</span>
-          <a class="ac" href="https://alexhwilliams.info/" target="_blank" rel="noopener noreferrer"><img src="images/board/alex-williams.jpg" alt="">Alex Williams</a><span class="sep">·</span>
-          <a class="ac" href="https://pni.princeton.edu/people/jonathan-pillow" target="_blank" rel="noopener noreferrer"><img src="images/board/jonathan-pillow.jpg" alt="">Jonathan Pillow</a><span class="sep">·</span>
-          <a class="ac" href="https://www.gatsby.ucl.ac.uk/~maneesh/" target="_blank" rel="noopener noreferrer"><img src="images/board/maneesh-sahani.avif" alt="">Maneesh Sahani</a><span class="sep">·</span>
-          <a class="ac" href="https://ma.ttperi.ch/" target="_blank" rel="noopener noreferrer"><img src="images/board/matthew-perich.png" alt="">Matthew Perich</a><span class="sep">·</span>
-          <a class="ac" href="https://toliaslab.org/" target="_blank" rel="noopener noreferrer"><img src="images/board/andreas-tolias.jpg" alt="">Andreas Tolias</a><span class="sep">·</span>
+          <a class="ac" href="https://directory.engineering.upenn.edu/eva-dyer/" target="_blank" rel="noopener noreferrer"><img src="images/board/eva-dyer.jpg" alt="">Eva Dyer</a>
+          <a class="ac" href="https://med.emory.edu/directory/profile/?u=CPANDAR" target="_blank" rel="noopener noreferrer"><img src="images/board/chethan-pandarinath.jpg" alt="">Chethan Pandarinath</a>
+          <a class="ac" href="https://alexhwilliams.info/" target="_blank" rel="noopener noreferrer"><img src="images/board/alex-williams.jpg" alt="">Alex Williams</a>
+          <a class="ac" href="https://pni.princeton.edu/people/jonathan-pillow" target="_blank" rel="noopener noreferrer"><img src="images/board/jonathan-pillow.jpg" alt="">Jonathan Pillow</a>
+          <a class="ac" href="https://www.gatsby.ucl.ac.uk/~maneesh/" target="_blank" rel="noopener noreferrer"><img src="images/board/maneesh-sahani.avif" alt="">Maneesh Sahani</a>
+          <a class="ac" href="https://ma.ttperi.ch/" target="_blank" rel="noopener noreferrer"><img src="images/board/matthew-perich.png" alt="">Matthew Perich</a>
+          <a class="ac" href="https://toliaslab.org/" target="_blank" rel="noopener noreferrer"><img src="images/board/andreas-tolias.jpg" alt="">Andreas Tolias</a>
           <a class="ac" href="https://alexander.psych.ucsb.edu/people/andy-alexander" target="_blank" rel="noopener noreferrer"><img src="images/board/andy-alexander.jpg" alt="">Andy Alexander</a>
         </div>
       </div>
@@ -549,7 +555,7 @@
   <div class="wrap footer-grid">
     <div>
       <div class="brand"><img src="images/logo/e8-petrie-small.png" alt="NeurReps logo"> NeurReps</div>
-      <p class="foot-note" style="margin-top:10px;">NeurIPS 2026 Workshop · Sydney, Australia</p>
+      <p class="foot-note" style="margin-top:10px;">NeurIPS 2026 Workshop in Sydney, Australia</p>
     </div>
     <div class="foot-links">
       <a href="http://twitter.com/neur_reps">Twitter / X</a>
@@ -618,7 +624,7 @@
     { session: "Session III — Geometric and Topological Methods for Scientific Discovery" },
     { time: "3:00 – 3:30", title: "The Quest for Representational Universals", who: "Phillip Isola (MIT)" },
     { time: "3:30 – 4:00", title: "Neuron activities steer attractors approximation during memory processing in mice", who: "Peng (Paul) Yuan (Fudan University)" },
-    { time: "4:00 – 4:30", title: "Panel: Topology, Geometry, and Neuroscience — Towards a Unified Framework", who: "Aditya Nair, Hidenori Tanaka · Moderator: David Klindt" },
+    { time: "4:00 – 4:30", title: "Panel: Topology, Geometry, and Neuroscience — Towards a Unified Framework", who: "Aditya Nair, Hidenori Tanaka (moderator: David Klindt)" },
     { time: "4:30 – 5:00", title: "Spotlight Talks — Extended Abstract Track", who: "3 talks, 10 min each", break: true, talks: [
       { title: "Spokes, not a Ring: Testing Continuity of Representation Manifolds", presenter: "Diksha Gupta" },
       { title: "Large-Scale In Silico Analysis of Visual Property Representations Across Cortical Regions and Representational Metrics", presenter: "Colin Conwell" },
@@ -712,6 +718,61 @@
       img.addEventListener("load", () => { img.style.display = "block"; });
       tryNextExtension(img);
     });
+  }
+
+  // ---------------- SPINNING E8 LOGO ----------------
+  // Drifts slowly; drag to spin it, release to let it coast back to the drift.
+  function initLogoSpin(){
+    const img = document.getElementById("e8-logo");
+    if (!img) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const DRIFT = reduceMotion ? 0 : 360 / 120000; // deg per ms: one turn every 2 minutes
+    let angle = 0, velocity = DRIFT, dragging = false;
+    let lastPointerAngle = 0, lastMoveTime = 0, last = performance.now();
+
+    const pointerAngle = e => {
+      const r = img.getBoundingClientRect();
+      return Math.atan2(e.clientY - (r.top + r.height/2), e.clientX - (r.left + r.width/2)) * 180 / Math.PI;
+    };
+
+    img.addEventListener("pointerdown", e => {
+      dragging = true;
+      img.setPointerCapture(e.pointerId);
+      img.classList.add("dragging");
+      lastPointerAngle = pointerAngle(e);
+      lastMoveTime = performance.now();
+      velocity = 0;
+    });
+    img.addEventListener("pointermove", e => {
+      if (!dragging) return;
+      const a = pointerAngle(e), now = performance.now();
+      let delta = a - lastPointerAngle;
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      angle += delta;
+      velocity = delta / Math.max(now - lastMoveTime, 1);
+      lastPointerAngle = a;
+      lastMoveTime = now;
+    });
+    const release = () => {
+      if (!dragging) return;
+      dragging = false;
+      img.classList.remove("dragging");
+      if (performance.now() - lastMoveTime > 80) velocity = 0; // held still before letting go
+    };
+    img.addEventListener("pointerup", release);
+    img.addEventListener("pointercancel", release);
+
+    (function tick(now){
+      const dt = Math.min(now - last, 50);
+      last = now;
+      if (!dragging){
+        velocity = DRIFT + (velocity - DRIFT) * Math.pow(0.997, dt); // ease back toward the drift
+        angle += velocity * dt;
+      }
+      img.style.transform = `rotate(${angle % 360}deg)`;
+      requestAnimationFrame(tick);
+    })(last);
   }
 
   // ---------------- ROTATING PLATONIC SOLIDS ----------------
@@ -824,6 +885,7 @@
   renderSchedule();
   wirePhotoLoading();
   initPolyhedra();
+  initLogoSpin();
 </script>
 
 </body>
